@@ -18,19 +18,19 @@
   
     <meta name="description" content="内网渗透​	最近在web方面遇到了瓶颈打算换个方向琢磨一下，就开始了内网的学习，这篇文章是我这两个星期以来对内网学习的一些认知和杂谈，也包括学习笔记，方便自己以后来回顾。 域​	域本身就是一个非常形象的描述,这是内网中常见的网络环境。简而言之，域用户的身份不同，所拥有的权限也不同，跟工作组不一样，一般是由域管理员统一管理，而工作组的权限人人平等，不方便管理，这也是域是内网中最常见的环境的原因。在内">
 <meta property="og:type" content="article">
-<meta property="og:title">
+<meta property="og:title" content="内网渗透">
 <meta property="og:url" content="http://example.com/2023/04/26/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/index.html">
 <meta property="og:site_name">
 <meta property="og:description" content="内网渗透​	最近在web方面遇到了瓶颈打算换个方向琢磨一下，就开始了内网的学习，这篇文章是我这两个星期以来对内网学习的一些认知和杂谈，也包括学习笔记，方便自己以后来回顾。 域​	域本身就是一个非常形象的描述,这是内网中常见的网络环境。简而言之，域用户的身份不同，所拥有的权限也不同，跟工作组不一样，一般是由域管理员统一管理，而工作组的权限人人平等，不方便管理，这也是域是内网中最常见的环境的原因。在内">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-04-26T08:05:20.164Z">
-<meta property="article:modified_time" content="2023-04-25T11:14:09.516Z">
+<meta property="article:published_time" content="2023-04-26T08:10:46.000Z">
+<meta property="article:modified_time" content="2023-04-26T08:11:42.015Z">
 <meta property="article:author" content="Luxiaoguo">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title></title>
+  <title>内网渗透 - </title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -196,7 +196,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text=""></span>
+            <span id="subtitle" data-typed-text="内网渗透"></span>
           
         </div>
 
@@ -207,7 +207,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-04-26 16:05" pubdate>
+        <time datetime="2023-04-26 16:10" pubdate>
           2023年4月26日 下午
         </time>
       </span>
@@ -268,7 +268,7 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none"></h1>
+            <h1 style="display: none">内网渗透</h1>
             
             
               <div class="markdown-body">
@@ -316,7 +316,7 @@
 <h3 id="非约束委派"><a href="#非约束委派" class="headerlink" title="非约束委派"></a>非约束委派</h3><p>​	 非约束委派意思就是用户可以委派你去访问任何服务。如果serverA设置了非约束委派，当用户A提交对serverA的申请给KDC，KDC会检查serverA的属性，是非约束委派，此时KDC就会将用户的TGT和ST放在一起发给A,保存在A的系统中，从而A就可以模拟该用户访问服务。从攻击角度来说，攻击者拿到了一台非约束委派的服务主机，可以诱导域管来访问，从而保存域管的TGT。依靠以上方法还可以获取黄金票据。</p>
 <h3 id="约束委派"><a href="#约束委派" class="headerlink" title="约束委派"></a>约束委派</h3><p>​	非约束委派在实战中不常用，因为域管理员不会这么傻给权限。非约束委派指的就是该主机只能被委派去访问特定的服务。由于非约束委派的不安全性，微软引入了两个扩展协议，简称为S4Uself和S4Uproxy，这两个子协议是TGS的，用户还是会发送TGT给相关受委派的服务，但是这个proxy协议限制了他访问的服务对象。过程为，A请求server1,server1通过self协议代表A去请求一个可以访问自身的可转发Ticket,然后代表A去请求KDC通过proxy协议请求一个访问server2的Ticket，然后server1就可以访问server2。</p>
 <p>​	从攻击角度来看，我们劫持中间被配置了约束委派的服务用户1，也就是获取了明文密码或者hash，我们就可以伪造server1的TGT。通常server1是会转发A转发给他的ST1，但我们伪造了TGT发给KDC，而在S4Uproxy协议，也就是第二次请求KDC中，我们伪造是使用的管理员账户来访问服务。</p>
-<p>​	简而言之，知道委派主机的密码后，可以请求到服务用户的TGT，然后通过TGT可以伪造S4Uproxy服务，伪造成administrator用户访问服务，就是我们得到了该服务主机的权限时，由于第一段S4Uself不用验证用户自己的票据，所以可以先伪造请求server1本身，然后再利用此ST可以伪造任意用户请求获取server2的票据</p>
+<p>​	简而言之，知道委派主机的密码后，可以请求到服务用户的TGT，然后通过TGT可以伪造S4Uproxy服务，伪造成administrator用户访问服务，就是我们得到了该服务主机的权限时，由于第一段S4Uself不用验证用户自己的票据，所以可以先伪造请求server1本身，然后再利用此ST可以伪造任意用户请求获取server2的票据。</p>
 
                 
               </div>
@@ -334,7 +334,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div></div>
+      <div>内网渗透</div>
       <div>http://example.com/2023/04/26/内网渗透/</div>
     </div>
     <div class="license-meta">
