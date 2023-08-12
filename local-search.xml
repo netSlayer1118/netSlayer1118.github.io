@@ -4,11 +4,24 @@
   
   
   <entry>
-    <title>1</title>
-    <link href="/2023/04/29/1/"/>
-    <url>/2023/04/29/1/</url>
+    <title>webshell</title>
+    <link href="/2023/04/30/webshell/"/>
+    <url>/2023/04/30/webshell/</url>
     
-    <content type="html"><![CDATA[<p>666</p>]]></content>
+    <content type="html"><![CDATA[<h1 id="脚本木马"><a href="#脚本木马" class="headerlink" title="脚本木马"></a>脚本木马</h1><p>一句话 小马 比较容易免杀 短小精悍 如果容器支持其他脚本类型 也可以上传其他类型脚本马</p><p>iis容器(asp&#x2F;aspx&#x2F;php)</p><p>cracer.com&#x2F;x.php</p><p>apache &#x2F;nginx 一般是php</p><p>aspx &#x2F;asp一般兼容支持</p><p>asp脚本权限和aspx脚本权限不一样 aspx脚本权限高一些  </p><p>jsp &#x2F;tomcat&#x2F;jboss&#x2F;weblogic 这个脚本权限一般可以拿到administrator system root 可以直接提权</p><p>有时候菜刀之类链接可能会被waf过掉 我们可以传小马 用小马拉大马</p><p>上传代码被拦截 可以文件包含 还可以多级包含</p><p>有些文件夹权限不够 我们可以传一个cmd到可读可写文件夹</p><p>大马传输后门 看流量</p><p>webshell 密码爆破</p><p>adminer脱裤脚本</p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>漏洞分析</title>
+    <link href="/2023/04/29/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
+    <url>/2023/04/29/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/</url>
+    
+    <content type="html"><![CDATA[<h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><p>找到漏洞 我们观察他的url</p><p>一般产生在用户数据交互的地方 一些index.html这种静态的就不会产生漏洞</p><p>1.通过信息收集获取</p><p>2.测试注入漏洞</p><p>3.识别cms 查看对应的cms漏洞</p><p>如果不能识别cms类型 通过信息收集，挖掘web程序漏洞</p><p>漏洞扫描工具</p><p>nmap</p>]]></content>
     
     
     
@@ -21,7 +34,7 @@
     <link href="/2023/04/28/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/"/>
     <url>/2023/04/28/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/</url>
     
-    <content type="html"><![CDATA[<h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><p>​owasp top10</p><p>其他服务:漏洞利用 爆破口令 欺骗 钓鱼</p><p>服务搜集，扫端口，nmap</p><p>web搜索方向</p><p>域名信息 对应的ip 可以查有没有waf之类的</p><p>子域名收集 侧重于学校，机构，公司之类的站点</p><p>工具，Layer，subdomain</p><p>很多子域名，根据容器来分析漏洞存在情况:</p><p>iis apache nginx tomcat jboss</p><p>也就是根据中间件去找漏洞</p><p>whois查询域名注册人信息 对应利用，社工库查询，注册人反查用来撞库</p><p>敏感目录</p><p>robots.txt 用扫描工具进行扫描网站 工具 dirbuster 御剑之类的 </p><p>网站爬行 根据访问网站抓取链接</p><p>旁站C段 同服务器其他站点，以及同网段其他服务器</p><p>整站分析 网站系统 中间件版本</p><p>cms指纹搜索</p><p>谷歌黑客搜索</p>]]></content>
+    <content type="html"><![CDATA[<h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><p>​owasp top10</p><p>其他服务:漏洞利用 爆破口令 欺骗 钓鱼</p><p>服务搜集，扫端口，nmap</p><p>web搜索方向</p><p>域名信息 对应的ip 可以查有没有waf之类的</p><p>子域名收集 侧重于学校，机构，公司之类的站点</p><p>工具，Layer，subdomain</p><p>很多子域名，根据容器来分析漏洞存在情况:</p><p>iis apache nginx tomcat jboss</p><p>也就是根据中间件去找漏洞</p><p>whois查询域名注册人信息 对应利用，社工库查询，注册人反查用来撞库</p><p>敏感目录</p><p>robots.txt 用扫描工具进行扫描网站 工具 dirbuster 御剑之类的 </p><p>网站爬行 根据访问网站抓取链接</p><p>旁站C段 同服务器其他站点，以及同网段其他服务器</p><p>整站分析 网站系统 中间件版本</p><p>cms指纹搜索</p><p>谷歌黑客搜索</p><p>url采集 利用脚本去爬url 然后批量扫描</p><p>服务方向扫描 靠的是扫描端口 scanport批量扫描所有端口</p><p>网络设备信息收集 开放端口 路由 防火墙 代理  shodan搜索 可以抓取设备的一些相关信息</p><p>测试的目标是一个大的网络 但是你发现他的web没什么漏洞 但是你通过web获取公司的网段 通过服务器ip 可能有一些ip用在摄像头服务器 这些服务器可能就是一些默认口令，拿到了getshell 提权</p><p>后台查找 目录扫描去找后台 靠的是目录字典 爬行蜘蛛爬的是网站的超链接 </p><p>我们还可以找建站商 然后找建站商其他的网站去再找他的后台 一般这种后台都是通的</p><p>找真实ip绕过cdn 如何去测试有没有cdn 超级ping 去ping的时候解析的ip不一样 则做了cdn</p><p>怎么去找真实ip 去查找二级域名 cdn也需要成本 一般网站不会把所有的域名上cdn </p><p>当查到二级域名的ip 则真实ip可能就在这个段内</p><p>当我们找到了一个ip 然后在本地host绑定 然后再去ping百度 如果ping不了 这个ip就是假的</p><p>让服务器主动给你发包 发邮件</p><p>用ip138 查找历史记录</p><p>DNS收集whois 收集网站子域名 用kali</p><p>dnsenum工具</p><p>敏感目录探测</p><p>暴力破解 目录爬行</p>]]></content>
     
     
     
